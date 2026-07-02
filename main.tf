@@ -1,27 +1,14 @@
 terraform {
-  required_version = ">= 1.4"
+  required_version = ">= 1.5.7"
 }
 
 variable "command" {
-  description = "Shell command to execute."
+  description = "Command kept for the execution platform. Terraform will not execute it because this configuration creates no resources."
   type        = string
   default     = "env"
 }
 
-resource "terraform_data" "command" {
-  input = var.command
-
-  triggers_replace = [
-    var.command,
-    timestamp(),
-  ]
-
-  provisioner "local-exec" {
-    command = self.input
-  }
-}
-
 output "command" {
-  description = "Command executed by local-exec."
-  value       = terraform_data.command.output
+  description = "Command value for the execution platform."
+  value       = var.command
 }
